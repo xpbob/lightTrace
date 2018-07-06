@@ -64,7 +64,7 @@
 						<configuration>
 							<classifier>agent</classifier>
 							<includes>
-								<include>com/xp/agent/**</include>
+								<include>com/xp/agent/main/**</include>
 							</includes>
 							<archive>
 								<manifest>
@@ -77,13 +77,16 @@
 									<Agent-Class>
 										com.xp.agent.main.Main
 									</Agent-Class>
+									<Boot-Class-Path>
+										trace-0.0.1-SNAPSHOT-agentcore.jar
+									</Boot-Class-Path>
 									<Can-Redefine-Classes>
 										true
 									</Can-Redefine-Classes>
 									<Can-Retransform-Classes>
 										true
 									</Can-Retransform-Classes>
-				
+
 								</manifestEntries>
 							</archive>
 						</configuration>
@@ -111,6 +114,24 @@
 										true
 									</Can-Redefine-Classes>
 								</manifestEntries>
+							</archive>
+						</configuration>
+					</execution>
+					<execution>
+						<id>agentcore</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<classifier>agentcore</classifier>
+							<includes>
+								<include>com/xp/agent/core/*</include>
+							</includes>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+								</manifest>
 							</archive>
 						</configuration>
 					</execution>

@@ -16,20 +16,9 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-public class Transform implements Opcodes {
+public class CustomTransform extends CommonTransform {
 
-	public VarInsnNode getVarInsnNode(final int opcode, final int var) {
-		return new VarInsnNode(opcode, var);
 
-	}
-
-	public LabelNode getLabelNode() {
-		return new LabelNode();
-	}
-
-	public MethodInsnNode currentTimeMillis() {
-		return new MethodInsnNode(INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
-	}
 
 	public void trans(ClassNode cn) {
 		for (MethodNode mn : (List<MethodNode>) cn.methods) {

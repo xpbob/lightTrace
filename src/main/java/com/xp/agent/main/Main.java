@@ -15,6 +15,8 @@ import org.objectweb.asm.tree.ClassNode;
 
 public class Main {
 
+	public static final String SYSTEM = "java.lang.System";
+
 	public static void premain(final String args, Instrumentation inst) {
 		agentmain(args, inst);
 	}
@@ -26,14 +28,19 @@ public class Main {
 					ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
 
 				className = className.replace("/", ".");
-				if (className.contains(args) && !className.contains("$")) {
+				if ((className.contains(args) && !className.contains("$")) || SYSTEM.equals(className)) {
 					try {
 						ClassReader cr;
 						cr = new ClassReader(className);
 						ClassNode cn = new ClassNode();
 						cr.accept(cn, 0);
-						Transform at = new Transform();
-						at.trans(cn);
+						if (SYSTEM.equals(className)) {
+							SystemTransform at = new SystemTransform();
+							at.trans(cn);
+						} else {
+							CustomTransform at = new CustomTransform();
+							at.trans(cn);
+						}
 						ClassWriter cw = new ClassWriter(0);
 						cn.accept(cw);
 						byte[] toByte = cw.toByteArray();
@@ -51,8 +58,9 @@ public class Main {
 		Class[] allLoadedClasses = inst.getAllLoadedClasses();
 		List<Class> retransformClasses = new ArrayList<Class>(allLoadedClasses.length);
 		for (Class clazz : allLoadedClasses) {
-			if (inst.isModifiableClass(clazz) && clazz.getName().contains(args) && !clazz.getName().contains("$")) {
+			if (inst.isModifiableClass(clazz) && (clazz.getName().contains(args)||clazz.getName().equals(SYSTEM)) && !clazz.getName().contains("$")) {
 				retransformClasses.add(clazz);
+				System.out.println(clazz.getName());
 			}
 		}
 		try {

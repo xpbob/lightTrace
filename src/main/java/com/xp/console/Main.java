@@ -6,6 +6,7 @@ import com.sun.tools.attach.AgentInitializationException;
 import com.sun.tools.attach.AgentLoadException;
 import com.sun.tools.attach.AttachNotSupportedException;
 import com.sun.tools.attach.VirtualMachine;
+import static com.xp.common.CommonString.*;
 
 public class Main {
 
@@ -33,8 +34,8 @@ public class Main {
 				return;
 			}
 		} catch(Exception e) {
-			System.out.println("input arg");
-			return;
+			arg=NOCLASS;
+
 		}
 		
 		

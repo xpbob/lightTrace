@@ -80,6 +80,9 @@
 									<Boot-Class-Path>
 										trace-0.0.1-SNAPSHOT-agentcore.jar
 									</Boot-Class-Path>
+									<Class-Path>
+										trace-0.0.1-SNAPSHOT-common.jar
+									</Class-Path>
 									<Can-Redefine-Classes>
 										true
 									</Can-Redefine-Classes>
@@ -110,9 +113,9 @@
 									<Main-Class>
 										com.xp.console.Main
 									</Main-Class>
-									<Can-Redefine-Classes>
-										true
-									</Can-Redefine-Classes>
+									<Class-Path>
+										trace-0.0.1-SNAPSHOT-common.jar
+									</Class-Path>
 								</manifestEntries>
 							</archive>
 						</configuration>
@@ -127,6 +130,24 @@
 							<classifier>agentcore</classifier>
 							<includes>
 								<include>com/xp/agent/core/*</include>
+							</includes>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+								</manifest>
+							</archive>
+						</configuration>
+					</execution>
+					<execution>
+						<id>common</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<classifier>common</classifier>
+							<includes>
+								<include>com/xp/common/*</include>
 							</includes>
 							<archive>
 								<manifest>

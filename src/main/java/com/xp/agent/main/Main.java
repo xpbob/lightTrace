@@ -35,7 +35,7 @@ public class Main {
                     cr = new ClassReader(classfileBuffer);
                     ClassNode cn = new ClassNode();
                     cr.accept(cn, 0);
-                    if (SYSTEM.equals(className)) {
+                    if (SYSTEM.contains(className)) {
                         SystemTransform at = new SystemTransform();
                         at.trans(cn);
                     } else {
@@ -65,14 +65,16 @@ public class Main {
             }
         }
         try {
-            inst.retransformClasses(retransformClasses.toArray(new Class[0]));
+            if(retransformClasses.size()>0){
+                inst.retransformClasses(retransformClasses.toArray(new Class[0]));
+            }
         } catch (UnmodifiableClassException e) {
             e.printStackTrace();
         }
     }
 
     public static boolean isSpecialClass(String className) {
-        return SYSTEM.equals(className);
+        return SYSTEM.contains(className);
     }
 
     public static boolean isReTransformClass(String className, String args) {
